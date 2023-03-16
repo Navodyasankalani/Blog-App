@@ -7,11 +7,11 @@ import {useLocation, useNavigate } from 'react-router-dom';
 
 const Write = () => {
   const state = useLocation().state;
-  const [value, setValue] = useState(state?.title || "");
-  const [title, setTitle] = useState(state?.desc || "");
+  const [value, setValue] = useState(state?.desc || "");
+  const [title, setTitle] = useState(state?.title || "");
   const [file, setFile] = useState(null);
   const [cat, setCat] = useState(state?.cat || "");
-
+console.log(state)
   const navigate = useNavigate()
 
   const upload = async () => {
@@ -45,7 +45,8 @@ const Write = () => {
             img: file ? imgUrl : "",
             date: moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
           });
-          navigate("/")
+          console.log(state)
+          navigate("/allBlogs")
     } catch (err) {
       console.log(err);
     }

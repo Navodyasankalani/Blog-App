@@ -57,6 +57,7 @@ const Menu = ({cat}) => {
       try {
         const res = await axios.get(`/posts/?cat=${cat}`);
         setPosts(res.data);
+        // console.log(res)
       } catch (err) {
         console.log(err);
       }
@@ -97,7 +98,9 @@ const Menu = ({cat}) => {
           <img src={`../upload/${post?.img}`} alt="" />
           <h2>{post.title}</h2>
           <button>Read More</button>
+
         </div>
+        
       ))}
     </div>
   );
