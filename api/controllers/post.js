@@ -3,8 +3,8 @@ import jwt from "jsonwebtoken";
 
 export const getPosts = (req,res)=>{
     const q = req.query.cat
-        ? "SELECT * FROM posts WHERE cat=?"
-        : "SELECT * FROM posts";
+        ? "SELECT p.id, `username`, `title`, `desc`, p.img, u.img AS userImg, `cat`,`date` FROM users u JOIN posts p ON u.id = p.uid WHERE cat=?"
+        : "SELECT p.id, `username`, `title`, `desc`, p.img, u.img AS userImg, `cat`,`date` FROM users u JOIN posts p ON u.id = p.uid";
 
     db.query(q, [req.query.cat], (err, data) => {
         if (err) return res.status(500).send(err);
@@ -72,7 +72,7 @@ export const deletePost = (req,res)=>{
 }
 
 export const updatePost = (req,res)=>{
-      const token = req.cookies.access_token;
+  const token = req.cookies.access_token;
   if (!token) return res.status(401).json("Not authenticated!");
 
   jwt.verify(token, "jwtkey", (err, userInfo) => {
@@ -83,6 +83,7 @@ export const updatePost = (req,res)=>{
       "UPDATE posts SET `title`=?,`desc`=?,`img`=?,`cat`=? WHERE `id` = ? AND `uid` = ?";
 
     const values = [req.body.title, req.body.desc, req.body.img, req.body.cat];
+    console.log(values)
 
     db.query(q, [...values, postId, userInfo.id], (err, data) => {
       if (err) return res.status(500).json(err);
